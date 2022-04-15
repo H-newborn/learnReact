@@ -4,7 +4,7 @@
  * @Author: zch
  * @Date: 2022-04-14 17:27:57
  * @LastEditors: zch
- * @LastEditTime: 2022-04-15 14:27:11
+ * @LastEditTime: 2022-04-15 15:51:17
  */
 import React from 'react';
 import logo from './logo.svg';
@@ -19,12 +19,30 @@ interface IShowResult {
   message: string,
   status: string
 }
+
+interface IThemeProps {
+  [key: string]: {color: string; background: string}
+}
+
+const themes: IThemeProps = {
+  'light': {
+    color: '#fff',
+    background: '#222'
+  },
+  'dark': {
+    color: 'red',
+    background: 'green'
+  }
+}
+
+export const ThemeContext = React.createContext(themes.light)
+
 function App() {
-  // const positions = useMousePositon()
   const [ data, loading] = useURLLoader('https://dog.ceo/api/breeds/image/random')
   const dogResult = data as IShowResult
   return (
     <div className="App">
+       <ThemeContext.Provider value={themes.dark}>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -38,6 +56,7 @@ function App() {
         <MouseTrack></MouseTrack>
         {/* <div>{positions.x}---{positions.y}</div> */}
       </header>
+      </ThemeContext.Provider>
     </div>
   );
 }
